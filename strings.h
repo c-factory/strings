@@ -24,3 +24,4 @@ typedef struct
 } string_builder_t;
 
 string_builder_t * create_string_builder(size_t capacity);
+string_builder_t * append_char(string_builder_t *obj, char ch);

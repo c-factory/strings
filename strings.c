@@ -6,7 +6,7 @@
 
 #include "strings.h"
 #include "allocator.h"
-#include <stdarg.h>
+#include <stdio.h>
 
 static const size_t initial_capacity = 16;
 
@@ -90,10 +90,8 @@ string_builder_t * append_string(string_builder_t *obj, string_t str)
     }    
 }
 
-string_builder_t * append_formatted_string(string_builder_t *obj, const char *format, ...)
+string_builder_t * append_formatted_string_ext(string_builder_t *obj, const char *format, va_list arg_list)
 {
-    va_list va;
-    va_start(va, format);
     const char *ptr = format;
     while(*ptr)
     {
@@ -102,10 +100,34 @@ string_builder_t * append_formatted_string(string_builder_t *obj, const char *fo
             ptr++;
             switch(*ptr)
             {
+                case 'c':
+                {
+                    int ch = va_arg(arg_list, int);
+                    obj = append_char(obj, (char)ch);
+                    break;
+                }
+
                 case 's':
                 {
-                    const char *c_str = va_arg(va, const char*);
+                    const char *c_str = va_arg(arg_list, const char*);
                     obj = append_string(obj, _S(c_str));
+                    break;
+                }
+
+                case 'S':
+                {
+                    string_t str = va_arg(arg_list, string_t);
+                    obj = append_string(obj, str);
+                    break;
+                }
+
+                case 'i':
+                case 'd':
+                {
+                    int value = va_arg(arg_list, int);
+                    char tmp[11];
+                    sprintf(tmp, "%d", value);
+                    obj = append_string(obj, _S(tmp));
                     break;
                 }
 
@@ -126,6 +148,5 @@ string_builder_t * append_formatted_string(string_builder_t *obj, const char *fo
             ptr++;
         }
     }
-    va_end(va);
     return obj;
 }

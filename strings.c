@@ -257,6 +257,15 @@ string_builder_t * append_formatted_string_ext(string_builder_t *obj, const char
                     break;
                 }
 
+                case 'f':
+                {
+                    double value = va_arg(arg_list, double);
+                    char tmp[11];
+                    sprintf(tmp, "%f", value);
+                    obj = append_string(obj, _S(tmp));
+                    break;
+                }
+
                 default:
                     obj = append_char(obj, *ptr);
                     break;
@@ -328,6 +337,15 @@ wide_string_builder_t * append_formatted_wide_string_ext(wide_string_builder_t *
                     int value = va_arg(arg_list, int);
                     char tmp[11];
                     sprintf(tmp, "%d", value);
+                    obj = append_non_wide_string(obj, _S(tmp));
+                    break;
+                }
+
+                case 'f':
+                {
+                    double value = va_arg(arg_list, double);
+                    char tmp[11];
+                    sprintf(tmp, "%f", value);
                     obj = append_non_wide_string(obj, _S(tmp));
                     break;
                 }

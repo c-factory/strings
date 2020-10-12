@@ -48,6 +48,8 @@ string_builder_t * append_formatted_string_ext(string_builder_t *obj, const char
 wide_string_builder_t * append_formatted_wide_string_ext(wide_string_builder_t *obj, const wchar_t *format, va_list arg_list);
 int compare_strings(string_t *first, string_t *second);
 int compare_wide_strings(wide_string_t *first, wide_string_t *second);
+string_t * duplicate_string(string_t str);
+wide_string_t * duplicate_wide_string(wide_string_t str);
 
 static __inline string_t _S(const char *c_str)
 {

@@ -308,6 +308,20 @@ wide_string_builder_t * append_formatted_wide_string_ext(wide_string_builder_t *
                     break;
                 }
 
+                case 'w':
+                {
+                    const wchar_t *c_wstr = va_arg(arg_list, const wchar_t*);
+                    obj = append_wide_string(obj, _W(c_wstr));
+                    break;
+                }
+
+                case 'W':
+                {
+                    wide_string_t wstr = va_arg(arg_list, wide_string_t);
+                    obj = append_wide_string(obj, wstr);
+                    break;
+                }
+
                 case 'i':
                 case 'd':
                 {
@@ -346,4 +360,24 @@ int compare_strings(string_t *first, string_t *second)
 int compare_wide_strings(wide_string_t *first, wide_string_t *second)
 {
     return wcscmp(first->data, second->data);
+}
+
+string_t * duplicate_string(string_t str)
+{
+    string_t *copy = nnalloc(sizeof(string_t) + (str.length + 1) * sizeof(char));
+    copy->data = (char*)(copy + 1);
+    copy->length = str.length;
+    memcpy(copy->data, str.data, str.length * sizeof(char));
+    copy->data[str.length] = '\0';
+    return copy;
+}
+
+wide_string_t * duplicate_wide_string(wide_string_t str)
+{
+    wide_string_t *copy = nnalloc(sizeof(string_t) + (str.length + 1) * sizeof(wchar_t));
+    copy->data = (wchar_t*)(copy + 1);
+    copy->length = str.length;
+    memcpy(copy->data, str.data, str.length * sizeof(wchar_t));
+    copy->data[str.length] = L'\0';
+    return copy;    
 }

@@ -17,11 +17,29 @@ typedef struct
     size_t length;
 } string_t;
 
+static __inline string_t init_string(const char * data, size_t length)
+{
+    string_t s = { (char*)data, length };
+    return s;
+}
+
+#define _S(s) init_string(s, strlen(s))
+#define __S(s) init_string(s, (sizeof(s) - 1) / sizeof(char))
+
 typedef struct
 {
     wchar_t * data;
     size_t length;
 } wide_string_t;
+
+static __inline wide_string_t init_wide_string(const wchar_t * data, size_t length)
+{
+    wide_string_t ws = { (wchar_t*)data, length };
+    return ws;
+}
+
+#define _W(ws) init_wide_string(ws, wcslen(ws))
+#define __W(ws) init_wide_string(ws, (sizeof(ws) - 1) / sizeof(wchar_t))
 
 typedef struct
 {
@@ -50,18 +68,6 @@ int compare_strings(string_t *first, string_t *second);
 int compare_wide_strings(wide_string_t *first, wide_string_t *second);
 string_t * duplicate_string(string_t str);
 wide_string_t * duplicate_wide_string(wide_string_t str);
-
-static __inline string_t _S(const char *c_str)
-{
-    string_t result = { (char*)c_str, strlen(c_str) };
-    return result;
-}
-
-static __inline wide_string_t _W(const wchar_t *c_wstr)
-{
-    wide_string_t result = { (wchar_t*)c_wstr, wcslen(c_wstr) };
-    return result;
-}
 
 static __inline string_t * create_formatted_string(const char *format, ...)
 {

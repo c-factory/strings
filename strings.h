@@ -10,6 +10,7 @@
 #include <string.h>
 #include <wchar.h>
 #include <stdarg.h>
+#include <stdbool.h>
 
 typedef struct
 {
@@ -103,4 +104,14 @@ static __inline wide_string_builder_t * append_formatted_wide_string(wide_string
     wide_string_builder_t *result = append_formatted_wide_string_ext(obj, format, arg_list);
     va_end(arg_list);
     return result;
+}
+
+static __inline bool are_strings_equal(string_t first, string_t second)
+{
+    return first.length == second.length && 0 == strcmp(first.data, second.data);
+}
+
+static __inline bool are_wide_strings_equal(wide_string_t first, wide_string_t second)
+{
+    return first.length == second.length && 0 == wcscmp(first.data, second.data);
 }

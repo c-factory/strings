@@ -115,3 +115,7 @@ static __inline bool are_wide_strings_equal(wide_string_t first, wide_string_t s
 {
     return first.length == second.length && 0 == wcscmp(first.data, second.data);
 }
+
+wide_string_t * decode_utf8_string(string_t str);
+string_t * encode_utf8_string(wide_string_t wstr);
+string_t * read_file_to_string(const char *file_name);

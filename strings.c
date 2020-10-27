@@ -593,3 +593,25 @@ wide_string_t * sub_wide_string(wide_string_t wstr, size_t index, size_t length)
     result->length = length;
     return result;
 }
+
+size_t index_of_char_in_string(string_t str, char ch)
+{
+    size_t i = 0;
+    for (; i < str.length; i++)
+    {
+        if (str.data[i] == ch)
+            break;
+    }
+    return i;
+}
+
+size_t index_of_char_in_wide_string(wide_string_t wstr, wchar_t ch)
+{
+    size_t i = 0;
+    for (; i < wstr.length; i++)
+    {
+        if (wstr.data[i] == ch)
+            break;
+    }
+    return i;
+}

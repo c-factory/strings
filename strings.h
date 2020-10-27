@@ -122,3 +122,5 @@ string_t * read_file_to_string(const char *file_name);
 string_t * wide_string_to_string(wide_string_t wstr, char bad_char, bool *was_bad_char);
 string_t * sub_string(string_t str, size_t index, size_t length);
 wide_string_t * sub_wide_string(wide_string_t wstr, size_t index, size_t length);
+size_t index_of_char_in_string(string_t str, char ch);
+size_t index_of_char_in_wide_string(wide_string_t wstr, wchar_t ch);

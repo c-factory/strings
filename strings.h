@@ -119,3 +119,6 @@ static __inline bool are_wide_strings_equal(wide_string_t first, wide_string_t s
 wide_string_t * decode_utf8_string(string_t str);
 string_t * encode_utf8_string(wide_string_t wstr);
 string_t * read_file_to_string(const char *file_name);
+string_t * wide_string_to_string(wide_string_t wstr, char bad_char, bool *was_bad_char);
+string_t * sub_string(string_t str, size_t index, size_t length);
+wide_string_t * sub_wide_string(wide_string_t wstr, size_t index, size_t length);

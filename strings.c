@@ -529,7 +529,7 @@ string_t * read_file_to_string(const char *file_name)
     const size_t max_size = SIZE_MAX - (sizeof(string_t) - 1);
     if (file_size > max_size) file_size = max_size;
     size_t length = (size_t)file_size;
-    string_t *str = nnalloc(sizeof(string_t*) + length + 1);
+    string_t *str = nnalloc(sizeof(string_t) + length + 1);
     str->data = (char*)(str + 1);
     str->length = length;
     str->data[length] = 0;
@@ -542,4 +542,54 @@ string_t * read_file_to_string(const char *file_name)
         return  NULL;
     }
     return str;
+}
+
+string_t * wide_string_to_string(wide_string_t wstr, char bad_char, bool *was_bad_char)
+{
+    bool bad_flag = false;
+    string_t * str = nnalloc(sizeof(string_t) + (wstr.length + 1) * sizeof(char));
+    str->data = (char*)(str + 1);
+    str->data[wstr.length] = '\0';
+    str->length = wstr.length;
+    for (size_t i = 0; i < wstr.length; i++)
+    {
+        wchar_t c = wstr.data[i];
+        if (c < 128)
+        {
+            str->data[i] = (char)c;    
+        }
+        else
+        {
+            str->data[i] = bad_char;
+            bad_flag = true;
+        }
+    }
+    if (was_bad_char) *was_bad_char = bad_flag;
+    return str;
+}
+
+string_t * sub_string(string_t str, size_t index, size_t length)
+{
+    if (index > str.length) index = str.length;
+    size_t tail = str.length - index;
+    if (length > tail) length = tail;
+    string_t *result = nnalloc(sizeof(string_t) + (length + 1) * sizeof(char));
+    result->data = (char*)(result + 1);
+    result->data[length] = '\0';
+    memcpy(result->data, str.data + index, length * sizeof(char));
+    result->length = length;
+    return result;
+}
+
+wide_string_t * sub_wide_string(wide_string_t wstr, size_t index, size_t length)
+{
+    if (index > wstr.length) index = wstr.length;
+    size_t tail = wstr.length - index;
+    if (length > tail) length = tail;
+    wide_string_t *result = nnalloc(sizeof(wide_string_t) + (length + 1) * sizeof(wchar_t));
+    result->data = (wchar_t*)(result + 1);
+    result->data[length] = L'\0';
+    memcpy(result->data, wstr.data + index, length * sizeof(wchar_t));
+    result->length = length;
+    return result;
 }

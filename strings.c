@@ -615,3 +615,94 @@ size_t index_of_char_in_wide_string(wide_string_t wstr, wchar_t ch)
     }
     return i;
 }
+
+void destroy_strings_list(strings_list_t *list)
+{
+    for (size_t i = 0; i < list->size; i++)
+        free(list->items[i]);
+    free(list);
+}
+
+void destroy_wide_strings_list(wide_strings_list_t *list)
+{
+    for (size_t i = 0; i < list->size; i++)
+        free(list->items[i]);
+    free(list->items);
+    free(list);
+}
+
+strings_list_t * split_string(string_t str, char separator)
+{
+    strings_list_t *list = nnalloc(sizeof(strings_list_t));
+    list->size = 0;
+    if (str.length)
+    {
+        size_t i, count = 0;
+        for (i = 0; i < str.length; i++)
+        {
+            if(str.data[i] == separator)
+                count++;
+        }
+        list->items = nnalloc(sizeof(string_t*) * (count + 1));
+        size_t idx = 0,
+            length = 0;
+        for (i = 0; i < str.length && count > 0; i++)
+        {
+            if(str.data[i] == separator)
+            {
+                list->items[list->size++] = sub_string(str, idx, length);
+                idx = i + 1;
+                length = 0;
+                count--;
+            }
+            else
+            {
+                length++;
+            }
+        }
+        list->items[list->size++] = sub_string(str, idx, str.length - idx);
+    }
+    else
+    {
+        list->items = NULL;
+    }
+    return list;
+}
+
+wide_strings_list_t * split_wide_string(wide_string_t wstr, wchar_t separator)
+{
+    wide_strings_list_t *list = nnalloc(sizeof(wide_strings_list_t));
+    list->size = 0;
+    if (wstr.length)
+    {
+        size_t i, count = 0;
+        for (i = 0; i < wstr.length; i++)
+        {
+            if(wstr.data[i] == separator)
+                count++;
+        }
+        list->items = nnalloc(sizeof(wide_string_t*) * (count + 1));
+        size_t idx = 0,
+            length = 0;
+        for (i = 0; i < wstr.length && count > 0; i++)
+        {
+            if(wstr.data[i] == separator)
+            {
+                list->items[list->size++] = sub_wide_string(wstr, idx, length);
+                idx = i + 1;
+                length = 0;
+                count--;
+            }
+            else
+            {
+                length++;
+            }
+        }
+        list->items[list->size++] = sub_wide_string(wstr, idx, wstr.length - idx);
+    }
+    else
+    {
+        list->items = NULL;
+    }
+    return list;
+}

@@ -56,6 +56,18 @@ typedef struct
     size_t capacity;
 } wide_string_builder_t;
 
+typedef struct
+{
+    string_t ** items;
+    size_t size;
+} strings_list_t;
+
+typedef struct
+{
+    wide_string_t ** items;
+    size_t size;
+} wide_strings_list_t;
+
 string_builder_t * create_string_builder(size_t capacity);
 wide_string_builder_t * create_wide_string_builder(size_t capacity);
 string_builder_t * append_char(string_builder_t *obj, char ch);
@@ -124,3 +136,7 @@ string_t * sub_string(string_t str, size_t index, size_t length);
 wide_string_t * sub_wide_string(wide_string_t wstr, size_t index, size_t length);
 size_t index_of_char_in_string(string_t str, char ch);
 size_t index_of_char_in_wide_string(wide_string_t wstr, wchar_t ch);
+void destroy_strings_list(strings_list_t *list);
+void destroy_wide_strings_list(wide_strings_list_t *list);
+strings_list_t * split_string(string_t str, char separator);
+wide_strings_list_t * split_wide_string(wide_string_t wstr, wchar_t separator);

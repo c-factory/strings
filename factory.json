@@ -1,0 +1,15 @@
+{
+    "name": "strings",
+    "description": "Yet another library for string processing in the C language",
+    "author": "c factory",
+    "type": "library",
+    "sources": "strings.c",
+    "headers": ".",
+    "depends":
+    [
+        {
+            "name": "collections",
+            "url": "https://github.com/c-factory/collections.git"
+        }
+    ]
+}

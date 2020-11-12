@@ -3,8 +3,8 @@
     "description": "Yet another library for string processing in the C language",
     "author": "c factory",
     "type": "library",
-    "sources": "strings.c",
-    "headers": ".",
+    "sources": "src/*.c",
+    "headers": "include",
     "depends":
     [
         {

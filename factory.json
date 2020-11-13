@@ -9,7 +9,7 @@
     [
         {
             "name": "collections",
-            "url": ["../collections", "https://github.com/c-factory/collections.git"]
+            "url": "https://github.com/c-factory/collections.git"
         }
     ]
 }

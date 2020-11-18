@@ -438,7 +438,7 @@ wide_string_t *decode_utf8_string(string_t str)
 #if WCHAR_MAX > 0xFFFF
         else if ((c0 & 0xF8) == 0xF0)
         {
-            if (i + 3 >= str.data)
+            if (i + 3 >= str.length)
                 goto error;
             unsigned char c1 = (unsigned char)str.data[i + 1];
             unsigned char c2 = (unsigned char)str.data[i + 2];
